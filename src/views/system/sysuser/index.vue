@@ -2,7 +2,11 @@
   <div class="app-container">
     <el-row :gutter="20">
       <!--部门数据-->
-      <el-col :span="4" :xs="24" style="padding-right: 0;">
+      <el-col
+        :span="4"
+        :xs="24"
+        style="padding-right: 0;"
+      >
         <el-card class="box-card">
           <div class="head-container">
             <el-input
@@ -28,10 +32,21 @@
         </el-card>
       </el-col>
       <!--用户数据-->
-      <el-col :span="20" :xs="24">
+      <el-col
+        :span="20"
+        :xs="24"
+      >
         <el-card class="box-card">
-          <el-form ref="queryForm" :model="queryParams" :inline="true" label-width="68px">
-            <el-form-item label="用户名称" prop="username">
+          <el-form
+            ref="queryForm"
+            :model="queryParams"
+            :inline="true"
+            label-width="68px"
+          >
+            <el-form-item
+              label="用户名称"
+              prop="username"
+            >
               <el-input
                 v-model="queryParams.username"
                 placeholder="请输入用户名称"
@@ -41,7 +56,10 @@
                 @keyup.enter.native="handleQuery"
               />
             </el-form-item>
-            <el-form-item label="手机号码" prop="phone">
+            <el-form-item
+              label="手机号码"
+              prop="phone"
+            >
               <el-input
                 v-model="queryParams.phone"
                 placeholder="请输入手机号码"
@@ -52,12 +70,24 @@
               />
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" icon="el-icon-search" size="small" @click="handleQuery">搜索</el-button>
-              <el-button icon="el-icon-refresh" size="small" @click="resetQuery">重置</el-button>
+              <el-button
+                type="primary"
+                icon="el-icon-search"
+                size="small"
+                @click="handleQuery"
+              >搜索</el-button>
+              <el-button
+                icon="el-icon-refresh"
+                size="small"
+                @click="resetQuery"
+              >重置</el-button>
             </el-form-item>
           </el-form>
 
-          <el-row :gutter="10" class="mb8">
+          <el-row
+            :gutter="10"
+            class="mb8"
+          >
             <el-col :span="1.5">
               <el-button
                 v-permisaction="['system:sysuser:add']"
@@ -95,13 +125,46 @@
             border
             @selection-change="handleSelectionChange"
           >
-            <el-table-column type="selection" width="45" align="center" />
-            <el-table-column label="编号" width="50" align="center" prop="userId" />
-            <el-table-column label="用户名称" align="center" prop="username" :show-overflow-tooltip="true" />
-            <el-table-column label="用户昵称" align="center" prop="nickName" :show-overflow-tooltip="true" />
-            <el-table-column label="部门" align="center" prop="deptName" :show-overflow-tooltip="true" />
-            <el-table-column label="手机号码" align="center" prop="phone" width="120" />
-            <el-table-column label="状态" width="68" align="center">
+            <el-table-column
+              type="selection"
+              width="45"
+              align="center"
+            />
+            <el-table-column
+              label="编号"
+              width="50"
+              align="center"
+              prop="userId"
+            />
+            <el-table-column
+              label="用户名称"
+              align="center"
+              prop="username"
+              :show-overflow-tooltip="true"
+            />
+            <el-table-column
+              label="用户昵称"
+              align="center"
+              prop="nickName"
+              :show-overflow-tooltip="true"
+            />
+            <el-table-column
+              label="部门"
+              align="center"
+              prop="deptName"
+              :show-overflow-tooltip="true"
+            />
+            <el-table-column
+              label="手机号码"
+              align="center"
+              prop="phone"
+              width="120"
+            />
+            <el-table-column
+              label="状态"
+              width="68"
+              align="center"
+            >
               <template slot-scope="scope">
                 <el-switch
                   v-model="scope.row.status"
@@ -111,7 +174,12 @@
                 />
               </template>
             </el-table-column>
-            <el-table-column label="创建时间" align="center" prop="create_time" width="165">
+            <el-table-column
+              label="创建时间"
+              align="center"
+              prop="create_time"
+              width="165"
+            >
               <template slot-scope="scope">
                 <span>{{ parseTime(scope.row.create_time) }}</span>
               </template>
@@ -161,37 +229,93 @@
     </el-row>
 
     <!-- 添加或修改参数配置对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="800px">
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+    <el-dialog
+      :title="title"
+      :visible.sync="open"
+      width="800px"
+    >
+      <el-form
+        ref="form"
+        :model="form"
+        :rules="rules"
+        label-width="80px"
+      >
         <el-row>
           <el-col :span="12">
-            <el-form-item label="用户名称" prop="username" style="width: 90%">
-              <el-input v-model="form.username" placeholder="请输入用户名称" />
+            <el-form-item
+              label="用户名称"
+              prop="username"
+              style="width: 90%"
+            >
+              <el-input
+                v-model="form.username"
+                placeholder="请输入用户名称"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="用户昵称" prop="nickName" style="width: 90%">
-              <el-input v-model="form.nickName" placeholder="请输入用户昵称" />
+            <el-form-item
+              label="用户昵称"
+              prop="nickName"
+              style="width: 90%"
+            >
+              <el-input
+                v-model="form.nickName"
+                placeholder="请输入用户昵称"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item v-if="form.userId == undefined" label="用户密码" prop="password" style="width: 90%">
-              <el-input v-model="form.password" placeholder="请输入用户密码" type="password" />
+            <el-form-item
+              v-if="form.userId == undefined"
+              label="用户密码"
+              prop="password"
+              style="width: 90%"
+            >
+              <el-input
+                v-model="form.password"
+                placeholder="请输入用户密码"
+                type="password"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="手机号码" prop="phone" style="width: 90%">
-              <el-input v-model="form.phone" placeholder="请输入手机号码" maxlength="11" />
+            <el-form-item
+              label="手机号码"
+              prop="phone"
+              style="width: 90%"
+            >
+              <el-input
+                v-model="form.phone"
+                placeholder="请输入手机号码"
+                maxlength="11"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="邮箱" prop="email" style="width: 90%">
-              <el-input v-model="form.email" placeholder="请输入邮箱" maxlength="50" />
+            <el-form-item
+              label="邮箱"
+              prop="email"
+              style="width: 90%"
+            >
+              <el-input
+                v-model="form.email"
+                placeholder="请输入邮箱"
+                maxlength="50"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="角色" style="width: 90%">
-              <el-select v-model="form.roleId" placeholder="请选择" style="width: 100%" @change="$forceUpdate()">
+            <el-form-item
+              label="角色"
+              style="width: 90%"
+            >
+              <el-select
+                v-model="form.roleId"
+                placeholder="请选择"
+                style="width: 100%"
+                @change="$forceUpdate()"
+              >
                 <el-option
                   v-for="item in roleOptions"
                   :key="item.roleId"
@@ -203,9 +327,13 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="归属部门" prop="deptId" style="width: 90%">
+            <el-form-item
+              label="归属部门"
+              prop="deptId"
+              style="width: 90%"
+            >
               <treeselect
-                v-model="form.deptId"
+                v-model="form.id"
                 :options="deptOptions"
                 :normalizer="normalizer"
                 placeholder="请选择归属部门"
@@ -213,8 +341,16 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="岗位" style="width: 90%">
-              <el-select v-model="form.postId" placeholder="请选择" style="width: 100%" @change="$forceUpdate()">
+            <el-form-item
+              label="岗位"
+              style="width: 90%"
+            >
+              <el-select
+                v-model="form.postId"
+                placeholder="请选择"
+                style="width: 100%"
+                @change="$forceUpdate()"
+              >
                 <el-option
                   v-for="item in postOptions"
                   :key="item.postId"
@@ -227,20 +363,37 @@
           </el-col>
 
           <el-col :span="24">
-            <el-form-item label="备注" style="width: 95%">
-              <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
+            <el-form-item
+              label="备注"
+              style="width: 95%"
+            >
+              <el-input
+                v-model="form.remark"
+                type="textarea"
+                placeholder="请输入内容"
+              />
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
+      <div
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button
+          type="primary"
+          @click="submitForm"
+        >确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
 
     <!-- 用户导入对话框 -->
-    <el-dialog :title="upload.title" :visible.sync="upload.open" width="400px">
+    <el-dialog
+      :title="upload.title"
+      :visible.sync="upload.open"
+      width="400px"
+    >
       <el-upload
         ref="upload"
         :limit="1"
@@ -258,14 +411,31 @@
           将文件拖到此处，或
           <em>点击上传</em>
         </div>
-        <div slot="tip" class="el-upload__tip">
+        <div
+          slot="tip"
+          class="el-upload__tip"
+        >
           <el-checkbox v-model="upload.updateSupport" />是否更新已经存在的用户数据
-          <el-link type="info" style="font-size:12px" @click="importTemplate">下载模板</el-link>
+          <el-link
+            type="info"
+            style="font-size:12px"
+            @click="importTemplate"
+          >下载模板</el-link>
         </div>
-        <div slot="tip" class="el-upload__tip" style="color:red">提示：仅允许导入“xls”或“xlsx”格式文件！</div>
+        <div
+          slot="tip"
+          class="el-upload__tip"
+          style="color:red"
+        >提示：仅允许导入“xls”或“xlsx”格式文件！</div>
       </el-upload>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitFileForm">确 定</el-button>
+      <div
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button
+          type="primary"
+          @click="submitFileForm"
+        >确 定</el-button>
         <el-button @click="upload.open = false">取 消</el-button>
       </div>
     </el-dialog>
@@ -391,8 +561,7 @@ export default {
         this.userList = response.data.list
         this.total = response.data.count
         this.loading = false
-      }
-      )
+      })
     },
     /** 查询部门下拉树结构 */
     getTreeselect() {
@@ -416,7 +585,7 @@ export default {
         delete node.children
       }
       return {
-        id: node.deptId,
+        id: node.id,
         label: node.deptName,
         children: node.children
       }
@@ -518,7 +687,7 @@ export default {
             this.msgError(response.msg)
           }
         })
-      }).catch(() => {})
+      }).catch(() => { })
     },
     /** 提交按钮 */
     submitForm: function() {
@@ -560,7 +729,7 @@ export default {
       }).then(() => {
         this.getList()
         this.msgSuccess('删除成功')
-      }).catch(function() {})
+      }).catch(function() { })
     },
     /** 导出按钮操作 */
     handleExport() {
@@ -573,7 +742,7 @@ export default {
         return exportUser(queryParams)
       }).then(response => {
         this.download(response.msg)
-      }).catch(function() {})
+      }).catch(function() { })
     },
     /** 导入按钮操作 */
     handleImport() {

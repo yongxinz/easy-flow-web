@@ -118,10 +118,8 @@ export default {
       loginForm: {
         username: '',
         password: '',
-        rememberMe: false,
         code: '',
-        uuid: '',
-        loginType: 1
+        uuid: ''
       },
       loginRules: {
         username: [
@@ -197,8 +195,8 @@ export default {
     getCode() {
       getCodeImg().then(res => {
         if (res !== undefined) {
-          this.codeUrl = res.data
-          this.loginForm.uuid = res.id
+          this.codeUrl = res.data.data
+          this.loginForm.uuid = res.data.id
         }
       })
     },
@@ -223,12 +221,6 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          if (this.isLdapTmp) {
-            this.loginForm.loginType = 1
-          } else {
-            this.loginForm.loginType = 0
-          }
-
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm)
             .then(() => {
