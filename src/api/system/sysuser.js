@@ -79,7 +79,7 @@ export function changeUserStatus(userId, status) {
     status
   }
   return request({
-    url: '/api/v1/sys-user',
+    url: '/api/v1/sys-user/status',
     method: 'put',
     data: data
   })

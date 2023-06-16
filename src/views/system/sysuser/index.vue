@@ -143,12 +143,6 @@
               :show-overflow-tooltip="true"
             />
             <el-table-column
-              label="用户昵称"
-              align="center"
-              prop="nickName"
-              :show-overflow-tooltip="true"
-            />
-            <el-table-column
               label="部门"
               align="center"
               prop="deptName"
@@ -163,13 +157,14 @@
             <el-table-column
               label="状态"
               width="68"
+              prop="status"
               align="center"
             >
               <template slot-scope="scope">
                 <el-switch
                   v-model="scope.row.status"
-                  active-value="0"
-                  inactive-value="1"
+                  :active-value="1"
+                  :inactive-value="0"
                   @change="handleStatusChange(scope.row)"
                 />
               </template>
@@ -177,11 +172,11 @@
             <el-table-column
               label="创建时间"
               align="center"
-              prop="create_time"
+              prop="createdAt"
               width="165"
             >
               <template slot-scope="scope">
-                <span>{{ parseTime(scope.row.create_time) }}</span>
+                <span>{{ parseTime(scope.row.createdAt) }}</span>
               </template>
             </el-table-column>
             <el-table-column
@@ -592,7 +587,9 @@ export default {
     },
     // 用户状态修改
     handleStatusChange(row) {
-      const text = row.status === '0' ? '启用' : '停用'
+      console.log(row)
+      console.log(row.status)
+      const text = row.status === 0 ? '停用' : '启用'
       this.$confirm('确认要"' + text + '""' + row.username + '"用户吗?', '警告', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -602,7 +599,7 @@ export default {
       }).then(() => {
         this.msgSuccess(text + '成功')
       }).catch(function() {
-        row.status = row.status === '0' ? '1' : '0'
+        row.status = row.status === 0 ? 1 : 0
       })
     },
     // 取消按钮
