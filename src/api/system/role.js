@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询角色列表
 export function listRole(query) {
   return request({
-    url: '/api/v1/rolelist',
+    url: '/api/v1/role',
     method: 'get',
     params: query
   })
@@ -51,7 +51,7 @@ export function changeRoleStatus(roleId, status) {
     status
   }
   return request({
-    url: '/api/v1/role',
+    url: '/api/v1/role/' + roleId,
     method: 'put',
     data: data
   })

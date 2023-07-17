@@ -250,18 +250,6 @@
           </el-col>
           <el-col :span="12">
             <el-form-item
-              label="用户昵称"
-              prop="nickName"
-              style="width: 90%"
-            >
-              <el-input
-                v-model="form.nickName"
-                placeholder="请输入用户昵称"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item
               v-if="form.userId == undefined"
               label="用户密码"
               prop="password"
@@ -479,7 +467,7 @@ export default {
       form: {},
       defaultProps: {
         children: 'children',
-        label: 'deptName'
+        label: 'label'
       },
       // 用户导入参数
       upload: {
@@ -509,9 +497,6 @@ export default {
       rules: {
         username: [
           { required: true, message: '用户名称不能为空', trigger: 'blur' }
-        ],
-        nickName: [
-          { required: true, message: '用户昵称不能为空', trigger: 'blur' }
         ],
         deptId: [
           { required: true, message: '归属部门不能为空', trigger: 'blur' }
@@ -567,11 +552,11 @@ export default {
     // 筛选节点
     filterNode(value, data) {
       if (!value) return true
-      return data.deptName.indexOf(value) !== -1
+      return data.label.indexOf(value) !== -1
     },
     // 节点单击事件
     handleNodeClick(data) {
-      this.queryParams.deptId = data.deptId
+      this.queryParams.deptId = data.id
       this.getList()
     },
     /** 转换菜单数据结构 */
@@ -581,14 +566,12 @@ export default {
       }
       return {
         id: node.id,
-        label: node.deptName,
+        label: node.label,
         children: node.children
       }
     },
     // 用户状态修改
     handleStatusChange(row) {
-      console.log(row)
-      console.log(row.status)
       const text = row.status === 0 ? '停用' : '启用'
       this.$confirm('确认要"' + text + '""' + row.username + '"用户吗?', '警告', {
         confirmButtonText: '确定',

@@ -86,20 +86,20 @@
         <el-table-column label="角色编号" prop="roleId" width="120" />
         <el-table-column label="角色名称" prop="roleName" :show-overflow-tooltip="true" width="150" />
         <el-table-column label="权限字符" prop="roleKey" :show-overflow-tooltip="true" width="150" />
-        <el-table-column label="显示顺序" prop="roleSort" width="100" />
+        <el-table-column label="显示顺序" prop="sort" width="100" />
         <el-table-column label="状态" align="center" width="100">
           <template slot-scope="scope">
             <el-switch
               v-model="scope.row.status"
-              active-value="0"
-              inactive-value="1"
+              :active-value="1"
+              :inactive-value="0"
               @change="handleStatusChange(scope.row)"
             />
           </template>
         </el-table-column>
-        <el-table-column label="创建时间" align="center" prop="create_time" width="180">
+        <el-table-column label="创建时间" align="center" prop="createdAt" width="180">
           <template slot-scope="scope">
-            <span>{{ parseTime(scope.row.create_time) }}</span>
+            <span>{{ parseTime(scope.row.createdAt) }}</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -309,12 +309,6 @@ export default {
         this.menuOptions = response.data
       })
     },
-    /** 查询部门树结构 */
-    getDeptTreeselect() {
-      deptTreeselect().then(response => {
-        this.deptOptions = response.data.list
-      })
-    },
     // 所有菜单节点数据
     getMenuAllCheckedKeys() {
       // 目前被选中的菜单节点
@@ -353,7 +347,7 @@ export default {
     },
     // 角色状态修改
     handleStatusChange(row) {
-      const text = row.status === '0' ? '启用' : '停用'
+      const text = row.status === 0 ? '停用' : '启用'
       this.$confirm('确认要"' + text + '""' + row.roleName + '"角色吗?', '警告', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -363,7 +357,7 @@ export default {
       }).then(() => {
         this.msgSuccess(text + '成功')
       }).catch(function() {
-        row.status = row.status === '0' ? '1' : '0'
+        row.status = row.status === 0 ? 1 : 0
       })
     },
     // 取消按钮
