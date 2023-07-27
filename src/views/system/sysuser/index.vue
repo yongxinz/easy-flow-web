@@ -304,7 +304,7 @@
                   :key="item.roleId"
                   :label="item.roleName"
                   :value="item.roleId"
-                  :disabled="item.status == 1"
+                  :disabled="item.status === 0"
                 />
               </el-select>
             </el-form-item>
@@ -316,7 +316,7 @@
               style="width: 90%"
             >
               <treeselect
-                v-model="form.id"
+                v-model="form.deptId"
                 :options="deptOptions"
                 :normalizer="normalizer"
                 placeholder="请选择归属部门"
@@ -426,7 +426,8 @@
 </template>
 
 <script>
-import { listUser, getUser, delUser, addUser, updateUser, exportUser, resetUserPwd, changeUserStatus, importTemplate, getUserInit } from '@/api/system/sysuser'
+import { listRole } from '@/api/system/role'
+import { listUser, getUser, delUser, addUser, updateUser, exportUser, resetUserPwd, changeUserStatus, importTemplate } from '@/api/system/sysuser'
 import { getToken } from '@/utils/auth'
 import { treeselect } from '@/api/system/dept'
 import Treeselect from '@riophae/vue-treeselect'
@@ -565,7 +566,7 @@ export default {
         delete node.children
       }
       return {
-        id: node.id,
+        id: node.deptId,
         label: node.label,
         children: node.children
       }
@@ -596,15 +597,14 @@ export default {
         userId: undefined,
         deptId: undefined,
         username: undefined,
-        nickName: undefined,
         password: undefined,
         phone: undefined,
         email: undefined,
         sex: undefined,
-        status: '0',
+        status: 1,
         remark: undefined,
-        postIds: undefined,
-        roleIds: undefined
+        postId: undefined,
+        roleId: undefined
       }
       this.resetForm('form')
     },
@@ -625,17 +625,25 @@ export default {
       this.single = selection.length !== 1
       this.multiple = !selection.length
     },
+    getRoleList() {
+      const queryParams = {
+        pageIndex: 1,
+        pageSize: 1000
+      }
+      listRole(queryParams).then(
+        response => {
+          this.roleOptions = response.data.list
+        }
+      )
+    },
     /** 新增按钮操作 */
     handleAdd() {
       this.reset()
       this.getTreeselect()
-      getUserInit().then(response => {
-        this.postOptions = response.data.posts
-        this.roleOptions = response.data.roles
-        this.open = true
-        this.title = '添加用户'
-        this.form.password = '123456'
-      })
+      this.getRoleList()
+      this.open = true
+      this.title = '添加用户'
+      this.form.password = '123456'
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
