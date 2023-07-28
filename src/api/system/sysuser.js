@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询用户列表
 export function listUser(query) {
   return request({
-    url: '/api/v1/sys-user',
+    url: '/api/v1/sys/user',
     method: 'get',
     params: query
   })
@@ -12,14 +12,14 @@ export function listUser(query) {
 // 查询用户详细
 export function getUser(userId) {
   return request({
-    url: '/api/v1/sys-user/' + userId,
+    url: '/api/v1/sys/user/' + userId,
     method: 'get'
   })
 }
 
 export function getUserInit() {
   return request({
-    url: '/api/v1/sys-user/',
+    url: '/api/v1/sys/user/',
     method: 'get'
   })
 }
@@ -27,7 +27,7 @@ export function getUserInit() {
 // 新增用户
 export function addUser(data) {
   return request({
-    url: '/api/v1/sys-user',
+    url: '/api/v1/sys/user',
     method: 'post',
     data: data
   })
@@ -36,24 +36,25 @@ export function addUser(data) {
 // 修改用户
 export function updateUser(data) {
   return request({
-    url: '/api/v1/sys-user',
+    url: '/api/v1/sys/user',
     method: 'put',
     data: data
   })
 }
 
 // 删除用户
-export function delUser(userId) {
+export function delUser(data) {
   return request({
-    url: '/api/v1/sys-user/' + userId,
-    method: 'delete'
+    url: '/api/v1/sys/user',
+    method: 'delete',
+    data: data
   })
 }
 
 // 导出用户
 export function exportUser(query) {
   return request({
-    url: '/api/v1/sys-user/export',
+    url: '/api/v1/sys/user/export',
     method: 'get',
     params: query
   })
@@ -66,7 +67,7 @@ export function resetUserPwd(userId, password) {
     password
   }
   return request({
-    url: '/api/v1/sys-user',
+    url: '/api/v1/sys/user/pwd/reset',
     method: 'put',
     data: data
   })
@@ -79,7 +80,7 @@ export function changeUserStatus(userId, status) {
     status
   }
   return request({
-    url: '/api/v1/sys-user/status',
+    url: '/api/v1/sys/user/status',
     method: 'put',
     data: data
   })
@@ -88,7 +89,7 @@ export function changeUserStatus(userId, status) {
 // 查询用户个人信息
 export function getUserProfile() {
   return request({
-    url: '/api/v1/sys-user/profile',
+    url: '/api/v1/sys/user/profile',
     method: 'get'
   })
 }
@@ -96,7 +97,7 @@ export function getUserProfile() {
 // 修改用户个人信息
 export function updateUserProfile(data) {
   return request({
-    url: '/api/v1/sys-user/profile',
+    url: '/api/v1/sys/user/profile',
     method: 'put',
     data: data
   })
@@ -110,7 +111,7 @@ export function updateUserPwd(oldPassword, newPassword, passwordType) {
     passwordType
   }
   return request({
-    url: '/api/v1/sys-user/pwd',
+    url: '/api/v1/sys/user/pwd',
     method: 'put',
     data: data
   })
@@ -119,7 +120,7 @@ export function updateUserPwd(oldPassword, newPassword, passwordType) {
 // 用户头像上传
 export function uploadAvatar(data) {
   return request({
-    url: '/api/v1/sys-user/avatar',
+    url: '/api/v1/sys/user/avatar',
     method: 'post',
     data: data
   })
@@ -128,7 +129,7 @@ export function uploadAvatar(data) {
 // 下载用户导入模板
 export function importTemplate() {
   return request({
-    url: '/api/v1/sys-user/importTemplate',
+    url: '/api/v1/sys/user/importTemplate',
     method: 'get'
   })
 }

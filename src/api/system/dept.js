@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function getDeptList(query) {
   return request({
-    url: '/api/v1/deptList',
+    url: '/api/v1/sys/dept',
     method: 'get',
     params: query
   })
@@ -10,7 +10,7 @@ export function getDeptList(query) {
 
 export function getOrdinaryDeptList(params) {
   return request({
-    url: '/api/v1/ordinaryDeptList',
+    url: '/api/v1/sys/ordinaryDeptList',
     method: 'get',
     params
   })
@@ -19,7 +19,7 @@ export function getOrdinaryDeptList(params) {
 // 查询部门详细
 export function getDept(deptId) {
   return request({
-    url: '/api/v1/dept/' + deptId,
+    url: '/api/v1/sys/dept/' + deptId,
     method: 'get'
   })
 }
@@ -27,7 +27,7 @@ export function getDept(deptId) {
 // 查询部门下拉树结构
 export function treeselect() {
   return request({
-    url: '/api/v1/deptTree',
+    url: '/api/v1/sys/deptTree',
     method: 'get'
   })
 }
@@ -35,7 +35,7 @@ export function treeselect() {
 // 根据角色ID查询部门树结构
 export function roleDeptTreeselect(roleId) {
   return request({
-    url: '/api/v1/roleDeptTreeselect/' + roleId,
+    url: '/api/v1/sys/roleDeptTreeselect/' + roleId,
     method: 'get'
   })
 }
@@ -43,7 +43,7 @@ export function roleDeptTreeselect(roleId) {
 // 新增部门
 export function addDept(data) {
   return request({
-    url: '/api/v1/dept',
+    url: '/api/v1/sys/dept',
     method: 'post',
     data: data
   })
@@ -52,7 +52,7 @@ export function addDept(data) {
 // 修改部门
 export function updateDept(data) {
   return request({
-    url: '/api/v1/dept',
+    url: '/api/v1/sys/dept',
     method: 'put',
     data: data
   })
@@ -61,7 +61,7 @@ export function updateDept(data) {
 // 删除部门
 export function delDept(deptId) {
   return request({
-    url: '/api/v1/dept/' + deptId,
+    url: '/api/v1/sys/dept/' + deptId,
     method: 'delete'
   })
 }

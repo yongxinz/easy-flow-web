@@ -426,6 +426,7 @@
 </template>
 
 <script>
+import { listPost } from '@/api/system/post'
 import { listRole } from '@/api/system/role'
 import { listUser, getUser, delUser, addUser, updateUser, exportUser, resetUserPwd, changeUserStatus, importTemplate } from '@/api/system/sysuser'
 import { getToken } from '@/utils/auth'
@@ -557,7 +558,7 @@ export default {
     },
     // 节点单击事件
     handleNodeClick(data) {
-      this.queryParams.deptId = data.id
+      this.queryParams.deptId = data.deptId
       this.getList()
     },
     /** 转换菜单数据结构 */
@@ -636,11 +637,23 @@ export default {
         }
       )
     },
+    getPostList() {
+      const queryParams = {
+        pageIndex: 1,
+        pageSize: 1000
+      }
+      listPost(queryParams).then(
+        response => {
+          this.postOptions = response.data.list
+        }
+      )
+    },
     /** 新增按钮操作 */
     handleAdd() {
       this.reset()
       this.getTreeselect()
       this.getRoleList()
+      this.getPostList()
       this.open = true
       this.title = '添加用户'
       this.form.password = '123456'
@@ -649,14 +662,12 @@ export default {
     handleUpdate(row) {
       this.reset()
       this.getTreeselect()
+      this.getRoleList()
+      this.getPostList()
 
       const userId = row.userId || this.ids
       getUser(userId).then(response => {
         this.form = response.data
-        this.postOptions = response.posts
-        this.roleOptions = response.roles
-        this.form.postIds = response.postIds[0]
-        this.form.roleIds = response.roleIds[0]
         this.open = true
         this.title = '修改用户'
         this.form.password = ''
@@ -670,7 +681,7 @@ export default {
       }).then(({ value }) => {
         resetUserPwd(row.userId, value).then(response => {
           if (response.code === 200) {
-            this.msgSuccess('修改成功，新密码是：' + value)
+            this.msgSuccess('修改成功')
           } else {
             this.msgError(response.msg)
           }
@@ -707,13 +718,13 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const userIds = row.userId || this.ids
+      const userIds = (row.userId && [row.userId]) || this.ids
       this.$confirm('是否确认删除用户编号为"' + userIds + '"的数据项?', '警告', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(function() {
-        return delUser(userIds)
+        return delUser({ 'ids': userIds })
       }).then(() => {
         this.getList()
         this.msgSuccess('删除成功')

@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 获取验证码
 export function getCodeImg() {
   return request({
-    url: '/api/v1/captcha',
+    url: '/api/v1/sys/captcha',
     method: 'get'
   })
 }
