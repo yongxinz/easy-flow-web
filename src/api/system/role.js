@@ -29,7 +29,7 @@ export function addRole(data) {
 // 修改角色
 export function updateRole(data) {
   return request({
-    url: '/api/v1/sys/role',
+    url: '/api/v1/sys/role/' + data.roleId,
     method: 'put',
     data: data
   })
@@ -45,23 +45,20 @@ export function dataScope(data) {
 }
 
 // 角色状态修改
-export function changeRoleStatus(roleId, status) {
-  const data = {
-    roleId,
-    status
-  }
+export function changeRoleStatus(data) {
   return request({
-    url: '/api/v1/sys/role/' + roleId,
+    url: '/api/v1/sys/role/' + data.roleId,
     method: 'put',
     data: data
   })
 }
 
 // 删除角色
-export function delRole(roleId) {
+export function delRole(data) {
   return request({
-    url: '/api/v1/sys/role/' + roleId,
-    method: 'delete'
+    url: '/api/v1/sys/role',
+    method: 'delete',
+    data: data
   })
 }
 
