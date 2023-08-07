@@ -45,7 +45,7 @@ export function addMenu(data) {
 // 修改菜单
 export function updateMenu(data) {
   return request({
-    url: '/api/v1/sys/menu',
+    url: '/api/v1/sys/menu/' + data.menuId,
     method: 'put',
     data: data
   })
