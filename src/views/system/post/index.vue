@@ -76,14 +76,14 @@
         <el-table-column label="状态" align="center" prop="status">
           <template slot-scope="scope">
             <el-tag
-              :type="scope.row.status === '1' ? 'danger' : 'success'"
+              :type="scope.row.status === 0 ? 'danger' : 'success'"
               disable-transitions
-            >{{ scope.row.status === '1' ? '停用' : '正常' }}</el-tag>
+            >{{ scope.row.status === 0 ? '停用' : '正常' }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="创建时间" align="center" prop="create_time" width="180">
+        <el-table-column label="创建时间" align="center" prop="createdAt" width="180">
           <template slot-scope="scope">
-            <span>{{ parseTime(scope.row.create_time) }}</span>
+            <span>{{ parseTime(scope.row.createdAt) }}</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -211,7 +211,7 @@ export default {
         postCode: undefined,
         postName: undefined,
         sort: 0,
-        status: '0',
+        status: 1,
         remark: undefined
       }
       this.resetForm('form')
@@ -279,13 +279,13 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const postIds = row.postId || this.ids
+      const postIds = (row.postId && [row.postId]) || this.ids
       this.$confirm('是否确认删除岗位编号为"' + postIds + '"的数据项?', '警告', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(function() {
-        return delPost(postIds)
+        return delPost({ ids: postIds })
       }).then(() => {
         this.getList()
         this.msgSuccess('删除成功')
