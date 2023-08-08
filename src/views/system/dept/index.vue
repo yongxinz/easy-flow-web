@@ -43,14 +43,14 @@
         <el-table-column prop="status" label="状态" width="100">
           <template slot-scope="scope">
             <el-tag
-              :type="scope.row.status === '1' ? 'danger' : 'success'"
+              :type="scope.row.status === 0 ? 'danger' : 'success'"
               disable-transitions
-            >{{ scope.row.status === '1' ? '停用' : '正常' }}</el-tag>
+            >{{ scope.row.status === 0 ? '停用' : '正常' }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="创建时间" align="center" prop="create_time" width="200">
+        <el-table-column label="创建时间" align="center" prop="createdAt" width="200">
           <template slot-scope="scope">
-            <span>{{ parseTime(scope.row.create_time) }}</span>
+            <span>{{ parseTime(scope.row.createdAt) }}</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -113,20 +113,10 @@
                 <el-option
                   v-for="item in users"
                   :key="item.userId"
-                  :label="item.nickName"
+                  :label="item.username"
                   :value="item.userId"
                 />
               </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="联系电话" prop="phone">
-              <el-input v-model="form.phone" placeholder="请输入联系电话" maxlength="11" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="邮箱" prop="email">
-              <el-input v-model="form.email" placeholder="请输入邮箱" maxlength="50" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -193,25 +183,11 @@ export default {
         ],
         sort: [
           { required: true, message: '菜单顺序不能为空', trigger: 'blur' }
-        ],
-        email: [
-          {
-            type: 'email',
-            message: "'请输入正确的邮箱地址",
-            trigger: ['blur', 'change']
-          }
-        ],
-        phone: [
-          {
-            pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
-            message: '请输入正确的手机号码',
-            trigger: 'blur'
-          }
         ]
       },
       statusOptions: [
-        { label: '正常', value: '0' },
-        { label: '停用', value: '1' }
+        { label: '正常', value: 1 },
+        { label: '停用', value: 0 }
       ]
     }
   },
@@ -275,9 +251,7 @@ export default {
         deptName: undefined,
         sorc: undefined,
         leader: undefined,
-        phone: undefined,
-        email: undefined,
-        status: '0'
+        status: 1
       }
     },
     /** 搜索按钮操作 */
