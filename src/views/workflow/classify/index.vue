@@ -136,8 +136,8 @@ export default {
       // 查询参数
       classifyList: [],
       listQuery: {
-        page: 1,
-        per_page: 10
+        pageIndex: 1,
+        pageSize: 10
       },
       ruleForm: {
         id: undefined,
@@ -157,8 +157,8 @@ export default {
     /** 查询角色列表 */
     getList() {
       this.loading = true
-      this.listQuery.page = this.queryParams.pageIndex
-      this.listQuery.per_page = this.queryParams.pageSize
+      this.listQuery.pageIndex = this.queryParams.pageIndex
+      this.listQuery.pageSize = this.queryParams.pageSize
       classifyList(this.listQuery).then(response => {
         this.classifyList = response.data.list
         this.queryParams.pageIndex = response.data.pageIndex
@@ -177,7 +177,7 @@ export default {
     },
     handleEdit(row) {
       this.dialogFormVisibleName = 2
-      this.ruleForm.id = row.id
+      this.ruleForm.classifyId = row.classifyId
       this.ruleForm.name = row.name
       this.open = true
     },
@@ -224,9 +224,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteClassify({
-          classifyId: row.id
-        }).then(response => {
+        deleteClassify(row.classifyId).then(response => {
           if (response !== undefined) {
             this.getList()
             this.$message({
