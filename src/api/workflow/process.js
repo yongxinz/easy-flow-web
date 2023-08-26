@@ -46,7 +46,7 @@ export function processDetails(processId) {
 // 分类流程列表
 export function classifyProcessList(params) {
   return request({
-    url: '/api/v1/process/classify',
+    url: '/api/v1/workflow/process/classify',
     method: 'get',
     params
   })
