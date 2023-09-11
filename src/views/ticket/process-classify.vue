@@ -108,7 +108,7 @@ export default {
       this.getProcessList()
     },
     submitWorkOrder(processId) {
-      this.$router.push({ path: '/process/create-ticket', query: { processId: processId }})
+      this.$router.push({ path: '/ticket/create', query: { processId: processId }})
     }
   }
 }
