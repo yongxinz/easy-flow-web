@@ -167,7 +167,7 @@ export default {
       this.getList()
     },
     handleView(row) {
-      this.$router.push({ name: 'ProcessListHandle', query: { workOrderId: row.id, processId: row.process }})
+      this.$router.push({ name: 'ProcessListHandle', query: { ticketId: row.ticket_id, processId: row.process_id }})
     },
     handleDelete(row) {
       this.$confirm('此操作将删除该数据, 是否继续?', '提示', {

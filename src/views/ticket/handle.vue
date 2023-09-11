@@ -4,13 +4,17 @@
     <div v-else>
       <el-card class="box-card">
         <div class="text item">
-          <el-steps v-if="currentNode.clazz !== undefined && currentNode.clazz !== null && currentNode.clazz !== ''" :active="activeIndex" finish-status="success">
+          <el-steps
+            v-if="currentNode.clazz !== undefined && currentNode.clazz !== null && currentNode.clazz !== ''"
+            :active="activeIndex"
+            finish-status="success"
+          >
             <template v-for="(item, index) in nodeStepList">
               <el-step
                 v-if="item.isHideNode === false ||
                   item.isHideNode === undefined ||
                   item.isHideNode == null ||
-                  item.id === processStructureValue.workOrder.current_state"
+                  item.id === ticket.current_state"
                 :key="index"
                 :title="item.label"
               />
@@ -27,69 +31,45 @@
       </el-card>
 
       <el-alert
-        v-if="activeIndex !== nodeStepList.length && processStructureValue.workOrder.is_end===1"
+        v-if="activeIndex !== nodeStepList.length && ticket.isEnd===1"
         style="margin-top: 15px"
         :title="alertMessage"
         type="error"
         :closable="false"
       />
 
-      <el-card class="box-card" style="margin-top: 15px">
-        <div slot="header" class="clearfix">
-          <span>公共信息</span>
-        </div>
-        <div class="text item">
-          <el-form label-width="100px">
-            <el-row>
-              <el-col :span="12">
-                <el-form-item label="标题:" style="margin-bottom: 5px">
-                  <span>{{ processStructureValue.workOrder.title }}</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item label="优先级:" style="margin-bottom: 0">
-                  <span v-if="processStructureValue.workOrder.priority===2">
-                    <el-tag type="warning">紧急</el-tag>
-                  </span>
-                  <span v-else-if="processStructureValue.workOrder.priority===3">
-                    <el-tag type="danger">非常紧急</el-tag>
-                  </span>
-                  <span v-else>
-                    <el-tag type="success">一般</el-tag>
-                  </span>
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </el-form>
-        </div>
-      </el-card>
-
-      <el-card class="box-card" style="margin-top: 15px;">
-        <div slot="header" class="clearfix">
+      <el-card
+        class="box-card"
+        style="margin-top: 15px;"
+      >
+        <div
+          slot="header"
+          class="clearfix"
+        >
           <span>表单信息</span>
         </div>
         <div class="text item">
-          <template v-for="(tplItem, tplIndex) in processStructureValue.tpls">
+          <template v-for="(tplItem, tplIndex) in ticketData">
             <fm-generate-form
               v-show="currentNode.hideTpls===undefined ||
                 currentNode.hideTpls===null ||
-                currentNode.hideTpls.indexOf(tplItem.form_structure.id)===-1"
+                currentNode.hideTpls.indexOf(tplItem.FormStructure.id)===-1"
               :key="tplIndex"
               :ref="'generateForm-'+tplItem.id"
               :preview="!!((currentNode.hideTpls!==undefined &&
                 currentNode.hideTpls!==null &&
-                currentNode.hideTpls.indexOf(tplItem.form_structure.id)!==-1) ||
+                currentNode.hideTpls.indexOf(tplItem.FormStructure.id)!==-1) ||
                 (currentNode.writeTpls===undefined ||
                 currentNode.writeTpls===null ||
-                currentNode.writeTpls.indexOf(tplItem.form_structure.id)===-1)||
+                currentNode.writeTpls.indexOf(tplItem.FormStructure.id)===-1)||
                 (isActiveProcessing && currentNode.activeOrder))"
               :remote="remoteFunc"
-              :value="tplItem.form_data"
-              :data="tplItem.form_structure"
+              :value="tplItem.FormData"
+              :data="tplItem.FormStructure"
             />
           </template>
         </div>
-        <div v-if="processStructureValue.userAuthority">
+        <div v-if="ticket.userAuthority">
           <hr style="background-color: #d9d9d9; border:0; height:1px; margin-bottom: 15px">
           <div>
             <el-input
@@ -101,10 +81,11 @@
               show-word-limit
             />
           </div>
-          <div class="text item" style="text-align: center;margin-top:18px">
-            <div
-              v-if="isActiveProcessing && currentNode.activeOrder"
-            >
+          <div
+            class="text item"
+            style="text-align: center;margin-top:18px"
+          >
+            <div v-if="isActiveProcessing && currentNode.activeOrder">
               <el-button
                 v-permisaction="['process:list:handle:active']"
                 type="primary"
@@ -114,9 +95,9 @@
               </el-button>
             </div>
             <div v-else>
-              <template v-for="(item, index) in processStructureValue.edges">
+              <template v-for="(item, index) in edges">
                 <el-button
-                  v-if="processStructureValue.workOrder.is_end===0 && item.source===currentNode.id"
+                  v-if="ticket.isEnd===0 && item.source===currentNode.id"
                   :key="index"
                   type="primary"
                   @click="submitAction(item)"
@@ -129,8 +110,14 @@
         </div>
       </el-card>
 
-      <el-card class="box-card" style="margin-top: 15px">
-        <div slot="header" class="clearfix">
+      <el-card
+        class="box-card"
+        style="margin-top: 15px"
+      >
+        <div
+          slot="header"
+          class="clearfix"
+        >
           <span>工单流转历史</span>
         </div>
         <div class="text item">
@@ -140,23 +127,23 @@
             style="width: 100%"
           >
             <el-table-column
-              prop="state"
+              prop="State"
               label="节点"
             />
             <el-table-column
-              prop="circulation"
+              prop="Circulation"
               label="流转"
             />
             <el-table-column
-              prop="processor"
+              prop="HandlerName"
               label="处理人"
             />
             <el-table-column
-              prop="create_time"
+              prop="CreateAt"
               label="处理时间"
             />
             <el-table-column
-              prop="remarks"
+              prop="Remark"
               label="备注"
             />
           </el-table>
@@ -198,6 +185,11 @@ export default {
       alertMessage: '',
       nodeStepList: [],
       circulationHistoryList: [],
+      ticket: {},
+      process: {},
+      ticketData: {},
+      nodes: [],
+      edges: [],
       activeIndex: 0,
       processStructureValue: {
         workOrder: { title: '' }
@@ -242,26 +234,34 @@ export default {
     getProcessNodeList() {
       processStructure({
         processId: this.$route.query.processId,
-        workOrderId: this.$route.query.workOrderId
+        ticketId: this.$route.query.ticketId
       }).then(response => {
         this.isActiveProcessing = false
         this.processStructureValue = response.data
-        this.circulationHistoryList = this.processStructureValue.circulationHistory
+        this.circulationHistoryList = JSON.parse(response.data.circulation)
+        this.nodes = JSON.parse(response.data.nodes)
+        this.process = JSON.parse(response.data.process)
+        this.ticket = JSON.parse(response.data.ticket)
+        this.ticketData = JSON.parse(response.data.form_data)
+        for (var i = 0; i < this.ticketData.length; i++) {
+          this.ticketData[i].FormData = JSON.parse(this.ticketData[i].FormData)
+          this.ticketData[i].FormStructure = JSON.parse(this.ticketData[i].FormStructure)
+        }
         // 获取当前展示节点列表
         this.nodeStepList = []
-        if (this.processStructureValue.nodes) {
-          for (var i = 0; i < this.processStructureValue.nodes.length; i++) {
-            if (this.processStructureValue.nodes[i].id === this.processStructureValue.workOrder.current_state) {
+        if (this.nodes) {
+          for (i = 0; i < this.nodes.length; i++) {
+            if (this.nodes[i].id === this.ticket.current_state) {
               // 当前节点
-              this.nodeStepList.push(this.processStructureValue.nodes[i])
+              this.nodeStepList.push(this.nodes[i])
               this.activeIndex = this.nodeStepList.length - 1
-              if (i + 1 === this.processStructureValue.nodes.length) {
+              if (i + 1 === this.nodes.length) {
                 this.activeIndex = this.nodeStepList.length
               }
-              this.currentNode = this.processStructureValue.nodes[i]
-            } else if (!this.processStructureValue.nodes[i].isHideNode) {
+              this.currentNode = this.nodes[i]
+            } else if (!this.nodes[i].isHideNode) {
               // 非隐藏节点
-              this.nodeStepList.push(this.processStructureValue.nodes[i])
+              this.nodeStepList.push(this.nodes[i])
             }
           }
         }
@@ -269,14 +269,14 @@ export default {
         // 如果回退到初始节点则可编辑。
         if (this.activeIndex === 0 && this.currentNode.clazz === 'start') {
           this.currentNode.writeTpls = []
-          for (var tplTmp of this.processStructureValue.tpls) {
-            this.currentNode.writeTpls.push(tplTmp.form_structure.id)
+          for (var tplTmp of this.ticketData) {
+            this.currentNode.writeTpls.push(tplTmp.FormStructure.id)
           }
         }
 
         // 判断是否需要主动处理
-        for (var stateValue of this.processStructureValue.workOrder.state) {
-          if (this.processStructureValue.workOrder.current_state === stateValue.id && stateValue.processor.length > 1) {
+        for (var stateValue of this.ticket.State) {
+          if (this.ticket.current_state === stateValue.id && stateValue.processor.length > 1) {
             this.isActiveProcessing = true
             break
           }
@@ -305,14 +305,14 @@ export default {
           target_state: item.target,
           circulation: item.label,
           flow_properties: item.flowProperties === undefined ? 2 : parseInt(item.flowProperties),
-          work_order_id: parseInt(this.$route.query.workOrderId),
+          work_order_id: parseInt(this.$route.query.ticketId),
           remarks: this.remarks,
           is_exec_task: item.isExecuteTask,
           tpls: this.tpls
         }).then(response => {
           if (response.code === 200) {
-          // this.$router.push({ name: 'upcoming' })
-          // window.location.reload()
+            // this.$router.push({ name: 'upcoming' })
+            // window.location.reload()
             this.getProcessNodeList()
           }
         })
@@ -320,7 +320,7 @@ export default {
     },
     // 获取提示消息
     getAlertMessage() {
-      if (this.processStructureValue.workOrder.is_end === 1) {
+      if (this.ticket.isEnd === 1) {
         this.alertMessage = '当前工单已结束。'
       }
     },
@@ -331,7 +331,7 @@ export default {
         process_method: 'person',
         processor: [this.userId]
       }]
-      activeOrder(jsonData, this.$route.query.workOrderId).then(() => {
+      activeOrder(jsonData, this.$route.query.ticketId).then(() => {
         this.getProcessNodeList()
       })
     }

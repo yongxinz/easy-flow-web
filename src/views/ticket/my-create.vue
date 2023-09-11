@@ -132,7 +132,7 @@ export default {
       this.getList()
     },
     handleView(row) {
-      this.$router.push({ name: 'ProcessListHandle', query: { workOrderId: row.id, processId: row.process }})
+      this.$router.push({ name: 'ProcessListHandle', query: { ticketId: row.ticket_id, processId: row.process_id }})
     },
     handleReopen(id) {
       this.$confirm('根据此工单新建一个新的工单?', '提示', {
