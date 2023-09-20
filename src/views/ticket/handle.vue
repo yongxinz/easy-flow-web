@@ -73,7 +73,7 @@
           <hr style="background-color: #d9d9d9; border:0; height:1px; margin-bottom: 15px">
           <div>
             <el-input
-              v-model="remarks"
+              v-model="remark"
               type="textarea"
               placeholder="请输入备注信息"
               maxlength="200"
@@ -97,7 +97,7 @@
             <div v-else>
               <template v-for="(item, index) in edges">
                 <el-button
-                  v-if="ticket.isEnd===0 && item.source===currentNode.id"
+                  v-if="ticket.IsEnd===0 && item.source===currentNode.id"
                   :key="index"
                   type="primary"
                   @click="submitAction(item)"
@@ -181,7 +181,7 @@ export default {
       },
       isActiveProcessing: false,
       tpls: [],
-      remarks: '', // 备注信息
+      remark: '', // 备注信息
       alertMessage: '',
       nodeStepList: [],
       circulationHistoryList: [],
@@ -240,10 +240,14 @@ export default {
         this.processStructureValue = response.data
         this.circulationHistoryList = JSON.parse(response.data.circulation)
         this.nodes = JSON.parse(response.data.nodes)
+        this.edges = JSON.parse(response.data.edges)
         this.process = JSON.parse(response.data.process)
         this.ticket = JSON.parse(response.data.ticket)
+        for (var i = 0; i < this.ticket.length; i++) {
+          this.ticket[i].State = JSON.parse(this.ticket[i].State)
+        }
         this.ticketData = JSON.parse(response.data.form_data)
-        for (var i = 0; i < this.ticketData.length; i++) {
+        for (i = 0; i < this.ticketData.length; i++) {
           this.ticketData[i].FormData = JSON.parse(this.ticketData[i].FormData)
           this.ticketData[i].FormStructure = JSON.parse(this.ticketData[i].FormStructure)
         }
@@ -283,39 +287,19 @@ export default {
         }
         this.isLoadingStatus = false
         this.getAlertMessage()
+
+        console.log(this.currentNode)
       })
     },
     submitAction(item) {
-      var promiseList = []
-      this.tpls = []
-      for (var tpl of this.processStructureValue.tpls) {
-        this.tpls.push({
-          tplDataId: tpl.id,
-          tplId: tpl.form_structure.id
-        })
-        promiseList.push(this.$refs['generateForm-' + tpl.id][0].getData())
-      }
-      Promise.all(promiseList).then(values => {
-        for (var tplDataIndex in this.tpls) {
-          this.tpls[tplDataIndex].tplValue = values[tplDataIndex]
+      handleWorkOrder({
+        flow_properties: item.flowProperties === undefined ? 2 : parseInt(item.flowProperties),
+        ticket_id: parseInt(this.$route.query.ticketId),
+        remark: this.remark
+      }).then(response => {
+        if (response.code === 200) {
+          this.getProcessNodeList()
         }
-        handleWorkOrder({
-          tasks: this.processStructureValue.process.task,
-          source_state: this.processStructureValue.workOrder.current_state,
-          target_state: item.target,
-          circulation: item.label,
-          flow_properties: item.flowProperties === undefined ? 2 : parseInt(item.flowProperties),
-          work_order_id: parseInt(this.$route.query.ticketId),
-          remarks: this.remarks,
-          is_exec_task: item.isExecuteTask,
-          tpls: this.tpls
-        }).then(response => {
-          if (response.code === 200) {
-            // this.$router.push({ name: 'upcoming' })
-            // window.location.reload()
-            this.getProcessNodeList()
-          }
-        })
       })
     },
     // 获取提示消息

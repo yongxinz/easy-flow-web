@@ -86,7 +86,7 @@ export default {
       ruleForm: {
         process_id: '',
         classify_id: '',
-        state: [],
+        state: {},
         source: '',
         source_state: '',
         process_method: '',
@@ -123,8 +123,6 @@ export default {
       }).then(response => {
         this.processInfo = JSON.parse(response.data.process)
         this.processStructureValue = JSON.parse(this.processInfo.Structure)
-        console.log(this.processInfo)
-        console.log(this.processStructureValue)
         this.template = JSON.parse(response.data.template)
         for (var i = 0; i < this.template.length; i++) {
           this.template[i].FormStructure = JSON.parse(this.template[i].FormStructure)
@@ -153,7 +151,7 @@ export default {
               break
             }
           }
-          this.ruleForm.state = [stateMap]
+          this.ruleForm.state = stateMap
 
           this.ruleForm.template = {
             'form_structure': [],

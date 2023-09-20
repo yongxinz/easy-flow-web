@@ -30,7 +30,7 @@ export function workOrderList(params) {
 // 处理工单
 export function handleWorkOrder(data) {
   return request({
-    url: '/api/v1/work-order/handle',
+    url: '/api/v1/workflow/ticket/handle',
     method: 'post',
     data
   })
