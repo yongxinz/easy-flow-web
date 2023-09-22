@@ -1,14 +1,5 @@
 <template>
   <div class="app-container">
-    <el-card class="box-card">
-      <div slot="header" class="clearfix">
-        <span>公共信息</span>
-      </div>
-      <div class="text item">
-        <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px" />
-      </div>
-    </el-card>
-
     <el-card
       class="box-card"
       style="margin-top: 10px"
@@ -18,6 +9,14 @@
         class="clearfix"
       >
         <span>表单信息</span>
+      </div>
+      <div class="text item">
+        <el-form
+          ref="ruleForm"
+          :model="ruleForm"
+          :rules="rules"
+          label-width="100px"
+        />
       </div>
       <div class="text item">
         <template v-for="(tplItem, tplIndex) in template">
@@ -184,7 +183,7 @@ export default {
             this.ruleForm.template = JSON.stringify(this.ruleForm.template)
             createWorkOrder(this.ruleForm).then(response => {
               if (response.code === 200) {
-                this.$router.push({ path: '/process/upcoming' })
+                this.$router.push({ path: '/ticket/my-create' })
               }
             }).catch(() => {
               this.submitDisabled = false
