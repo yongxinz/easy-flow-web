@@ -175,7 +175,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteWorkOrder(row.id).then(response => {
+        deleteWorkOrder(row.ticket_id).then(response => {
           this.$message({
             type: 'success',
             message: '删除成功!'

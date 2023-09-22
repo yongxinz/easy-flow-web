@@ -75,7 +75,7 @@ export function activeOrder(data, workOrderId) {
 // 删除工单
 export function deleteWorkOrder(workOrderId) {
   return request({
-    url: `/api/v1/work-order/delete/${workOrderId}`,
+    url: `/api/v1/workflow/ticket/${workOrderId}`,
     method: 'delete'
   })
 }
@@ -83,7 +83,7 @@ export function deleteWorkOrder(workOrderId) {
 // 删除工单
 export function reopenWorkOrder(id) {
   return request({
-    url: `/api/v1/work-order/reopen/${id}`,
-    method: 'post'
+    url: `/api/v1/workflow/ticket/${id}`,
+    method: 'delete'
   })
 }
