@@ -37,11 +37,11 @@ export function handleWorkOrder(data) {
 }
 
 // 结束工单
-export function unityWorkOrder(params) {
+export function unityWorkOrder(data) {
   return request({
-    url: '/api/v1/work-order/unity',
-    method: 'get',
-    params
+    url: '/api/v1/workflow/ticket/finish',
+    method: 'post',
+    data
   })
 }
 

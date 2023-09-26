@@ -196,7 +196,7 @@ export default {
         type: 'warning'
       }).then(() => {
         unityWorkOrder({
-          work_oroder_id: row.id
+          ticket_id: row.ticket_id
         }).then(response => {
           if (response.code === 200) {
             this.getList()
