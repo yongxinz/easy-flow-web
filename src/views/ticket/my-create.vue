@@ -158,7 +158,7 @@ export default {
         type: 'warning'
       }).then(() => {
         urgeWorkOrder({
-          workOrderId: row.id
+          ticket_id: row.ticket_id
         }).then(response => {
           this.$message({
             type: 'success',

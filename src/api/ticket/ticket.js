@@ -55,11 +55,11 @@ export function inversionWorkOrder(data) {
 }
 
 // 催办工单
-export function urgeWorkOrder(params) {
+export function urgeWorkOrder(data) {
   return request({
-    url: '/api/v1/work-order/urge',
-    method: 'get',
-    params
+    url: '/api/v1/workflow/ticket/urge',
+    method: 'post',
+    data
   })
 }
 
