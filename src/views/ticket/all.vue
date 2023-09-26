@@ -74,18 +74,13 @@
         width="30%"
       >
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="60px" class="demo-ruleForm">
-          <el-form-item label="节点" prop="node_id">
-            <el-select v-model="ruleForm.node_id" placeholder="选择节点" size="small" style="width: 100%">
-              <el-option v-for="(item, index) in nodeList" :key="index" :label="item.label" :value="item.id" />
-            </el-select>
-          </el-form-item>
           <el-form-item label="用户" prop="user_id">
             <el-select v-model="ruleForm.user_id" filterable placeholder="选择用户" size="small" style="width: 100%">
-              <el-option v-for="(item, index) in users" :key="index" :label="item.nickName" :value="item.userId" />
+              <el-option v-for="(item, index) in users" :key="index" :label="item.username" :value="item.userId" />
             </el-select>
           </el-form-item>
           <el-form-item label="备注">
-            <el-input v-model="ruleForm.remarks" type="textarea" size="small" />
+            <el-input v-model="ruleForm.remark" type="textarea" size="small" />
           </el-form-item>
           <el-form-item style="text-align: right">
             <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
@@ -124,19 +119,15 @@ export default {
       loading: false,
       ticketList: [],
       listQuery: {
-        page: 1,
-        per_page: 10
+        pageIndex: 1,
+        pageSize: 10
       },
       ruleForm: {
-        work_order_id: '',
-        node_id: '',
+        ticket_id: '',
         user_id: '',
-        remarks: ''
+        remark: ''
       },
       rules: {
-        node_id: [
-          { required: true, message: '请选择节点', trigger: 'change' }
-        ],
         user_id: [
           { required: true, message: '请选择用户', trigger: 'change' }
         ]
@@ -211,11 +202,7 @@ export default {
     },
     handleInversion(row) {
       this.dialogVisible = true
-      this.ruleForm.work_order_id = row.id
-      this.nodeList = row.state
-      if (this.nodeList.length === 1) {
-        this.ruleForm.node_id = this.nodeList[0].id
-      }
+      this.ruleForm.ticket_id = row.ticket_id
       listUser({
         pageSize: 999999
       }).then(response => {

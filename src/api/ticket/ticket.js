@@ -48,7 +48,7 @@ export function unityWorkOrder(data) {
 // 转交工单
 export function inversionWorkOrder(data) {
   return request({
-    url: '/api/v1/work-order/inversion',
+    url: '/api/v1/workflow/ticket/transfer',
     method: 'post',
     data
   })
