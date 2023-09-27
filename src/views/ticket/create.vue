@@ -85,7 +85,7 @@ export default {
       ruleForm: {
         process_id: '',
         classify_id: '',
-        state: {},
+        state: [],
         source: '',
         source_state: '',
         process_method: '',
@@ -150,7 +150,7 @@ export default {
               break
             }
           }
-          this.ruleForm.state = stateMap
+          this.ruleForm.state = [stateMap]
 
           this.ruleForm.template = {
             'form_structure': [],
